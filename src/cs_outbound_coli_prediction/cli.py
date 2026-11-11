@@ -1,4 +1,5 @@
-"""Command line: `backtest` scores the models, `train` saves a new model version, `forecast` writes the forecasts."""
+"""Command line: `backtest` scores the models, `train` saves a new model version, `forecast` writes the forecasts,
+`make-schedule` writes a starting schedule to edit."""
 import argparse
 import json
 import logging
@@ -104,6 +105,18 @@ def run_forecast(args):
     return 1 if problems else 0
 
 
+def run_make_schedule(args):
+    """Write the stand-in schedule (the delivery lines of the last week, repeated) so it can be edited into the real plan."""
+    deliveries = load_deliveries(args.input)
+    validate_deliveries(deliveries)
+    schedule = assumed_schedule(deliveries)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    schedule.to_csv(args.output, index=False)
+    logger.warning("wrote %d lines to %s: the delivery lines of the last week, repeated for %d weeks. "
+                   "Edit them into the real plan before forecasting", len(schedule), args.output, config.max_horizon)
+    return 0
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="cs-outbound-colli-prediction")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -111,12 +124,16 @@ def main(argv=None):
         ("backtest", run_backtest, "score the chosen and the fallback model on the last weeks"),
         ("train", run_train, "backtest, train and save a new model version (promoted if it beats the fallback)"),
         ("forecast", run_forecast, "forecast the next weeks and split them per delivery date"),
+        ("make-schedule", run_make_schedule, "write the delivery lines of the last week, repeated, as a schedule to edit"),
     ]:
         command = commands.add_parser(name, help=help_text)
         command.set_defaults(run=run)
         command.add_argument("--input", type=Path, default=config.input_path)
-        if name != "backtest":
+        if name not in ("backtest", "make-schedule"):
             command.add_argument("--models-dir", type=Path, default=config.models_dir)
+        if name == "make-schedule":
+            command.add_argument("--output", type=Path, default=config.input_path.parent / "plan.csv",
+                                 help="default: %(default)s")
         if name == "forecast":
             command.add_argument("--schedule", type=Path, help="CSV with store, dc and delivery_date of the coming weeks")
             command.add_argument("--max-age-days", type=int, default=config.max_data_age_days,

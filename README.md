@@ -31,8 +31,9 @@ clone (`uv run` or Docker): a normal `pip install .` would put the paths inside 
 the week of `delivery_date`. The data has to end with a complete week.
 
 **Schedule** (a CSV for `--schedule`): the planned deliveries of the coming weeks, with the columns `store`, `dc` and
-`delivery_date`. Without `--schedule` the delivery lines of the last week are repeated, which is much less accurate (DC and date
-WAPE 0.335 instead of 0.103 in the backtest).
+`delivery_date`. The pipeline does not decide the schedule: it comes from whoever plans the deliveries. `make-schedule` writes a
+starting file to edit (the delivery lines of the last week, repeated for the next 8 weeks). Without `--schedule` the same lines are
+used without saving them, which is much less accurate (DC and date WAPE 0.335 instead of 0.103 in the backtest).
 
 The inputs are checked before anything runs, and a problem raises an error that lists what is wrong: missing columns or values,
 negative quantities, repeated rows or delivery lines, a week without deliveries inside the history, an incomplete last week,
@@ -43,7 +44,8 @@ an empty schedule, a schedule without a DC or beyond the 8 weeks, and a store in
 ```bash
 uv run cs-outbound-colli-prediction backtest     # score the model and the fallback on the last 12 weeks
 uv run cs-outbound-colli-prediction train        # backtest, save a model version, promote it if it beats the fallback
-uv run cs-outbound-colli-prediction forecast --schedule plan.csv
+uv run cs-outbound-colli-prediction make-schedule    # writes data/input/plan.csv to edit into the real plan (--output to change)
+uv run cs-outbound-colli-prediction forecast --schedule data/input/plan.csv
 uv run pytest                                    # needs the data in data/input/
 ```
 
@@ -67,6 +69,7 @@ docker build -t cs-outbound-colli-prediction .
 run="docker run --rm -v $PWD/data/input:/app/data/input -v $PWD/artifacts:/app/artifacts -v $PWD/outputs:/app/outputs cs-outbound-colli-prediction"
 $run backtest
 $run train
+$run make-schedule --output /app/data/input/plan.csv   # a starting schedule to edit
 $run forecast --schedule /app/data/input/plan.csv      # add --max-age-days 1000 for old data
 ```
 
