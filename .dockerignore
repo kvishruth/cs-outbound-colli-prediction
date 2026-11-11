@@ -1,0 +1,14 @@
+.git
+.venv
+.python-version
+**/__pycache__
+.pytest_cache
+.ruff_cache
+data
+artifacts
+outputs
+experimentation
+tests
+HANDOVER.md
+Dockerfile
+.dockerignore
