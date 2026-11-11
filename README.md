@@ -118,11 +118,16 @@ same week overwrites them.
 `forecast` exits with code 1 if any weekly forecast came from the fallback model, or has no scheduled delivery date. The files
 are still written, so check the log.
 
-## Tests
+## Checks
 
 ```bash
-uv run pytest        # needs the data in data/input/
+uv run ruff check src tests     # lint
+uv run pytest                   # 41 tests, need the data in data/input/
 ```
+
+On every push to `main` and every pull request, GitHub Actions (`.github/workflows/ci.yml`) installs the libraries with
+`uv sync --locked`, runs the lint and checks that the command starts. It does not run the tests, because they need the data
+file, which is not in the repository.
 
 ## Docker
 

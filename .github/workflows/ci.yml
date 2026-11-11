@@ -1,0 +1,23 @@
+name: checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Install the libraries from uv.lock (fails if the lock file is out of date)
+        run: uv sync --locked
+      - name: Lint
+        run: uv run ruff check src tests
+      - name: The command starts
+        run: uv run cs-outbound-colli-prediction --help
+      
