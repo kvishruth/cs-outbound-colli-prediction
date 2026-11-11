@@ -170,3 +170,11 @@ The tests and the notebooks are not in the image either: they need the data and 
 | `split.py` | split the weekly forecast over delivery dates and DCs |
 | `pipeline.py` | train and forecast with fallback |
 | `cli.py` | the `backtest`, `train`, `make-schedule` and `forecast` commands |
+
+## Use of AI
+
+- Used to build the different test functions.
+- Used for debugging.
+- Used for making sure the code is well documented and linted. 
+- Used for generating the image which describes the production design.
+- Used for documentation.
