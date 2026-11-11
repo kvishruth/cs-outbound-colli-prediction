@@ -1,4 +1,4 @@
-"""Settings of the pipeline. The values come from experimentation/feature_engineering.ipynb."""
+"""Settings of the pipeline. The values come from experimentation/feature_and_model_exploration.ipynb."""
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[2]
