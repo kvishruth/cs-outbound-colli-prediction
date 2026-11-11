@@ -24,7 +24,7 @@ Evidence, in `experimentation/` (kept out of the repository):
   folds, then the 12-week holdout once).
 - `pipeline.ipynb`: a walkthrough of the pipeline in five parts (data checks, validation set-up, modelling, metric choice,
   results), with the DC split, P80 and P90, and the backtest without a known schedule.
-- `exploratory_data_analysis.ipynb` and `delivery_eda.ipynb`: the data exploration.
+- `exploratory_data_analysis.ipynb`: the data exploration.
 
 ## Repository and checks
 - GitHub repository `cs-outbound-colli-prediction`, branch `main`. This file and `experimentation/` are not committed.
