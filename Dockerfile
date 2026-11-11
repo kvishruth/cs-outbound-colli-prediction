@@ -24,5 +24,5 @@ RUN useradd --uid 1000 --create-home app \
     && chown -R app /app/data /app/artifacts /app/outputs
 USER app
 
-ENTRYPOINT ["cs-outbound-coli-prediction"]
+ENTRYPOINT ["cs-outbound-colli-prediction"]
 CMD ["--help"]

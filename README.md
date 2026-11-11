@@ -6,9 +6,9 @@ then this forecast (ML target), scored by WAPE, bias and pinball loss. See `HAND
 results and open questions, and `experimentation/feature_engineering.ipynb` for the experiments behind the model.
 
 ```bash
-uv run cs-outbound-coli-prediction backtest
-uv run cs-outbound-coli-prediction train
-uv run cs-outbound-coli-prediction forecast --schedule plan.csv   # plan.csv: store, dc, delivery_date of the coming weeks
+uv run cs-outbound-colli-prediction backtest
+uv run cs-outbound-colli-prediction train
+uv run cs-outbound-colli-prediction forecast --schedule plan.csv   # plan.csv: store, dc, delivery_date of the coming weeks
 uv run pytest
 ```
 
@@ -16,8 +16,8 @@ Docker: the image holds the code and libraries only. The data, the models and th
 your machine.
 
 ```bash
-docker build -t cs-outbound-coli-prediction .
-run="docker run --rm -v $PWD/data/input:/app/data/input -v $PWD/artifacts:/app/artifacts -v $PWD/outputs:/app/outputs cs-outbound-coli-prediction"
+docker build -t cs-outbound-colli-prediction .
+run="docker run --rm -v $PWD/data/input:/app/data/input -v $PWD/artifacts:/app/artifacts -v $PWD/outputs:/app/outputs cs-outbound-colli-prediction"
 $run backtest
 $run train
 $run forecast --schedule /app/data/input/plan.csv

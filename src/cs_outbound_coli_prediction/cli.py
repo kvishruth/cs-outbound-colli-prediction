@@ -105,7 +105,7 @@ def run_forecast(args):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="cs-outbound-coli-prediction")
+    parser = argparse.ArgumentParser(prog="cs-outbound-colli-prediction")
     commands = parser.add_subparsers(dest="command", required=True)
     for name, run, help_text in [
         ("backtest", run_backtest, "score the chosen and the fallback model on the last weeks"),

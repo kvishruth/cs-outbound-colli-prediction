@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [project.scripts]
-cs-outbound-coli-prediction = "cs_outbound_coli_prediction:main"
+cs-outbound-colli-prediction = "cs_outbound_coli_prediction:main"
 
 [build-system]
 requires = ["uv_build>=0.11.6,<0.12.0"]
